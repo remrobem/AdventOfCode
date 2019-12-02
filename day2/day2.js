@@ -84,7 +84,9 @@
 // A position in memory is called an address (for example, the first value in memory is at "address 0").
 
 // Opcodes (like 1, 2, or 99) mark the beginning of an instruction. 
-// The values used immediately after an opcode, if any, are called the instruction's parameters. For example, in the instruction 1,2,3,4, 1 is the opcode; 2, 3, and 4 are the parameters. The instruction 99 contains only an opcode and has no parameters.
+// The values used immediately after an opcode, if any, are called the instruction's parameters. 
+// For example, in the instruction 1,2,3,4, 1 is the opcode; 2, 3, and 4 are the parameters.  
+// The instruction 99 contains only an opcode and has no parameters.
 
 // The address of the current instruction is called the instruction pointer; it starts at 0. 
 // After an instruction finishes, the instruction pointer increases by the number of values in the instruction; 
@@ -148,28 +150,46 @@ const commands = [
     2, 14, 0, 0
 ]
 
-commands[1] = 12;
-commands[2] = 2;
+getValue = 19690720;
 
-for (let i = 0; i < commands.length;) {
-
-    switch (commands[i]) {
-        case 1:
-            commands[commands[i+3]] = commands[commands[i+1]] + commands[commands[i+2]];
-            i += 4;
-            break;
-        case 2:
-            commands[commands[i+3]] = commands[commands[i+1]] * commands[commands[i+2]];
-            i += 4;
-            break;
-        case 99:
-            i = commands.length;
-            break;
-
-        default:
-            throw new Error('invalid Op Code')
-            break;
+for (let noun = 0; noun < 100; noun++) {
+    for (let verb = 0; verb < 100; verb++) {
+        commands[1] = noun;
+        commands[2] = verb;  
+        let checkCommands = processOpCodes(commands);
+        console.log(checkCommands[0]);
+        if (checkCommands[0] == getValue) {
+            console.log('Noun: ', noun, 'Verb: ', verb, 'Answer: ', (100 * noun) + verb );
+            verb = noun = 100;
+        }
     }
 }
 
-console.log(commands);
+function processOpCodes(commands) {
+
+    let operations = [...commands];
+
+    for (let i = 0; i < operations.length;) {
+
+        switch (operations[i]) {
+            case 1:
+                operations[operations[i + 3]] = operations[operations[i + 1]] + operations[operations[i + 2]];
+                i += 4;
+                break;
+            case 2:
+                operations[operations[i + 3]] = operations[operations[i + 1]] * operations[operations[i + 2]];
+                i += 4;
+                break;
+            case 99:
+                i = operations.length;
+                break;
+
+            default:
+                throw new Error('invalid Op Code')
+                break;
+        }
+    }
+    return operations;
+};
+
+// console.log(commands);
