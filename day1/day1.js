@@ -118,8 +118,29 @@ const MODULES_MASS = [
     123252
 ];
 
-let fuel_requirements = MODULES_MASS.reduce( (fuel, mass) => {
-    return fuel + (Math.floor(mass / 3) - 2);
-},0);
+let getFuelForFuel = (fuel) => {
+
+    let fuelForFuel = 0;
+
+    let additionalFuel = (fuel) => {
+        let addFuel = (Math.floor(fuel / 3) - 2);
+        if (addFuel <= 0) {
+            return;
+        };
+        fuelForFuel += addFuel;
+        additionalFuel(addFuel);
+    }
+    
+    additionalFuel(fuel);
+
+    return fuelForFuel;
+
+}
+
+let fuel_requirements = MODULES_MASS.reduce((fuel, mass) => {
+    let fuelForMass = (Math.floor(mass / 3) - 2);
+    let addFuel = getFuelForFuel(fuelForMass);
+    return fuel + addFuel + fuelForMass;
+}, 0);
 
 console.log(fuel_requirements);
