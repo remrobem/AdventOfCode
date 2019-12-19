@@ -109,6 +109,8 @@
 
 // const commands = [1,1,1,4,99,5,6,0,99]
 
+// Noun:  48 Verb:  47 Answer:  4847
+
 const commands = [
     1, 0, 0, 3,
     1, 1, 2, 3,
